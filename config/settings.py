@@ -98,6 +98,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
+# import os
+
 # DATABASE_URL = os.environ.get("DATABASE_URL")
 
 

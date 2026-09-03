@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -5,6 +6,14 @@ class Entry(models.Model):
     class EntryType(models.TextChoices):
         FR = "FR", "FR"
         SR = "SR", "SR"
+
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="entries",
+        null=True,
+        blank=True,
+    )
 
     entry_type = models.CharField(
         max_length=2,
@@ -33,6 +42,9 @@ class Entry(models.Model):
             ),
             models.Index(
                 fields=["created_at"],
+            ),
+            models.Index(
+                fields=["owner", "business_date", "entry_type"],
             ),
         ]
 

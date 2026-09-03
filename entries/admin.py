@@ -9,6 +9,7 @@ class EntryAdmin(admin.ModelAdmin):
         "entry_type",
         "number",
         "amount",
+        "owner",
         "business_date",
         "created_at",
     )
@@ -16,6 +17,7 @@ class EntryAdmin(admin.ModelAdmin):
     list_filter = (
         "entry_type",
         "business_date",
+        "owner",
     )
 
     search_fields = (

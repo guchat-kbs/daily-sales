@@ -491,6 +491,9 @@ function renderEntries(entries) {
         const amount =
             Number(entry.amount).toFixed(2);
 
+        const paddedNumber =
+            String(entry.number).padStart(2, "0");
+
 
         const time =
             new Date(entry.created_at)
@@ -519,7 +522,7 @@ function renderEntries(entries) {
 
 
                 <div class="font-bold">
-                    ${entry.number}
+                    ${paddedNumber}
                 </div>
 
 
@@ -630,7 +633,7 @@ async function addEntries(event) {
 
 
         const normalizedNumber =
-            String(Number(number));
+            number.padStart(2, "0");
 
 
         entries.push({

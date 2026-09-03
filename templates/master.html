@@ -164,6 +164,102 @@
         </div>
 
 
+        <!-- FR + SR + OVERALL SUMMARY -->
+
+        <div
+            class="mt-4 grid
+                   grid-cols-3
+                   gap-3"
+        >
+
+            <div
+                class="rounded-xl
+                       border border-slate-200
+                       bg-white
+                       p-4
+                       shadow-sm"
+            >
+                <div class="text-xs font-bold text-slate-500">
+                    FR TOTAL
+                </div>
+                <div
+                    id="fr-total"
+                    class="mt-1 text-lg font-black text-red-600"
+                >
+                    ₹0.00
+                </div>
+            </div>
+
+            <div
+                class="rounded-xl
+                       border border-slate-200
+                       bg-white
+                       p-4
+                       shadow-sm"
+            >
+                <div class="text-xs font-bold text-slate-500">
+                    SR TOTAL
+                </div>
+                <div
+                    id="sr-total"
+                    class="mt-1 text-lg font-black text-blue-600"
+                >
+                    ₹0.00
+                </div>
+            </div>
+
+            <div
+                class="rounded-xl
+                       border border-slate-200
+                       bg-white
+                       p-4
+                       shadow-sm"
+            >
+                <div class="text-xs font-bold text-slate-500">
+                    OVERALL (FR+SR)
+                </div>
+                <div
+                    id="overall-total"
+                    class="mt-1 text-lg font-black text-slate-900"
+                >
+                    ₹0.00
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- PER-NUMBER BREAKDOWN -->
+
+        <div
+            class="mt-6 rounded-2xl
+                   border border-slate-200
+                   bg-white
+                   p-6
+                   shadow-sm"
+        >
+
+            <div
+                id="by-number-label"
+                class="text-sm
+                       font-bold
+                       text-slate-500"
+            >
+                FR — NUMBER-WISE TOTALS (00–99)
+            </div>
+
+            <div
+                id="by-number-grid"
+                class="mt-4 grid
+                       grid-cols-5
+                       gap-2
+                       sm:grid-cols-10"
+            >
+            </div>
+
+        </div>
+
+
         <!-- DATE -->
 
         <div
@@ -182,6 +278,46 @@
 <script>
 
     let currentType = "FR";
+
+
+    function renderByNumberGrid(byNumber) {
+
+        const grid =
+            document.getElementById("by-number-grid");
+
+        const numbers =
+            Object.keys(byNumber).sort();
+
+        grid.innerHTML = numbers.map(number => {
+
+            const amount = Number(byNumber[number]) || 0;
+
+            const hasAmount = amount > 0;
+
+            return `
+                <div
+                    class="rounded-lg border px-2 py-2 text-center
+                           ${hasAmount
+                               ? "border-emerald-300 bg-emerald-50"
+                               : "border-slate-200 bg-slate-50"}"
+                >
+                    <div class="text-[11px] font-bold text-slate-500">
+                        ${number}
+                    </div>
+                    <div
+                        class="mt-0.5 text-xs font-black
+                               ${hasAmount
+                                   ? "text-emerald-700"
+                                   : "text-slate-400"}"
+                    >
+                        ${amount.toFixed(2)}
+                    </div>
+                </div>
+            `;
+
+        }).join("");
+
+    }
 
 
     async function loadTotal() {
@@ -213,6 +349,20 @@
 
             totalElement.textContent =
                 `₹${Number(data.grand_total).toFixed(2)}`;
+
+            document.getElementById("fr-total").textContent =
+                `₹${Number(data.fr_total).toFixed(2)}`;
+
+            document.getElementById("sr-total").textContent =
+                `₹${Number(data.sr_total).toFixed(2)}`;
+
+            document.getElementById("overall-total").textContent =
+                `₹${Number(data.overall_total).toFixed(2)}`;
+
+            document.getElementById("by-number-label").textContent =
+                `${currentType} — NUMBER-WISE TOTALS (00–99)`;
+
+            renderByNumberGrid(data.by_number || {});
 
 
         } catch (error) {

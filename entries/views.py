@@ -45,6 +45,7 @@ def entries_api(request):
             .filter(
                 business_date=today,
                 entry_type=entry_type,
+                owner=request.user,
             )
             .order_by("-created_at")
         )
@@ -110,7 +111,7 @@ def entries_api(request):
         serializer.is_valid(raise_exception=True)
 
         created_entries.append(
-            serializer.save()
+            serializer.save(owner=request.user)
         )
 
     return Response(
@@ -188,6 +189,7 @@ def house_api(request):
 
             entries_to_create.append(
                 Entry(
+                    owner=request.user,
                     entry_type=entry_type,
                     number=number,
                     amount=amount,
@@ -283,6 +285,7 @@ def ending_api(request):
 
             entries_to_create.append(
                 Entry(
+                    owner=request.user,
                     entry_type=entry_type,
                     number=number,
                     amount=amount,
@@ -319,6 +322,7 @@ def delete_entry(request, pk):
         Entry,
         id=pk,
         business_date=today,
+        owner=request.user,
     )
 
     entry.delete()
@@ -362,12 +366,43 @@ def master_total_api(request):
 
     today = timezone.localdate()
 
+    # Per-number (00-99) breakdown for the selected entry type.
+    # Numbers are zero-padded in Python so that older, non-padded
+    # values (e.g. "5") and newer padded values (e.g. "05") are
+    # merged into the same bucket.
 
-    total = (
+    by_number = {
+        f"{n:02d}": 0
+        for n in range(100)
+    }
+
+    type_entries = (
         Entry.objects
         .filter(
             business_date=today,
             entry_type=entry_type,
+        )
+        .values_list("number", "amount")
+    )
+
+    total = 0
+
+    for number, amount in type_entries:
+
+        padded = number.strip().zfill(2)
+
+        if padded in by_number:
+            by_number[padded] += amount
+        else:
+            by_number[padded] = by_number.get(padded, 0) + amount
+
+        total += amount
+
+    fr_total = (
+        Entry.objects
+        .filter(
+            business_date=today,
+            entry_type="FR",
         )
         .aggregate(
             total=Sum("amount")
@@ -375,9 +410,26 @@ def master_total_api(request):
         or 0
     )
 
+    sr_total = (
+        Entry.objects
+        .filter(
+            business_date=today,
+            entry_type="SR",
+        )
+        .aggregate(
+            total=Sum("amount")
+        )["total"]
+        or 0
+    )
+
+    overall_total = fr_total + sr_total
 
     return Response({
         "entry_type": entry_type,
         "date": today,
         "grand_total": total,
+        "fr_total": fr_total,
+        "sr_total": sr_total,
+        "overall_total": overall_total,
+        "by_number": by_number,
     })
