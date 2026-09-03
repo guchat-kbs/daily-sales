@@ -1,0 +1,233 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Assam Dart</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+
+<body class="min-h-screen bg-black text-white">
+
+
+    <!-- TOP BAR -->
+
+    <header class="border-b border-zinc-800">
+
+        <div class="mx-auto max-w-6xl px-4 py-4 sm:py-5">
+
+
+            <!-- BRAND -->
+
+            <div class="text-center sm:text-left">
+
+                <h1
+                    class="text-xl font-black
+                           tracking-[0.2em]
+                           sm:text-2xl"
+                >
+                    ASSAM DART
+                </h1>
+
+            </div>
+
+
+            <!-- TIME / DATE BOX -->
+
+            <div class="mt-4 flex justify-center sm:mt-5">
+
+                <div
+                    class="w-full max-w-xs
+                           rounded-xl
+                           border border-zinc-800
+                           bg-zinc-950
+                           px-4 py-3
+                           text-center
+                           sm:max-w-sm"
+                >
+
+                    <div
+                        id="current-time"
+                        class="text-xl font-black
+                               tabular-nums
+                               tracking-tight
+                               sm:text-2xl"
+                    >
+                        --:--:--
+                    </div>
+
+
+                    <div
+                        id="current-date"
+                        class="mt-1 text-xs
+                               text-zinc-500
+                               sm:text-sm"
+                    >
+                        Loading date...
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- USER / LOGOUT -->
+
+            <div
+                class="mt-4 flex items-center
+                       justify-between
+                       border-t border-zinc-900
+                       pt-3
+                       sm:mt-5"
+            >
+
+                <div
+                    class="min-w-0
+                           text-sm
+                           text-zinc-500"
+                >
+
+                    <span class="font-medium">
+                        USER:
+                    </span>
+
+                    <span
+                        class="font-bold
+                               text-white"
+                    >
+                        {{ request.user.username }}
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="shrink-0
+                           rounded-lg
+                           border border-red-500/30
+                           px-3 py-2
+                           text-xs font-bold
+                           text-red-400
+                           transition
+                           hover:bg-red-500/10"
+                >
+                    LOGOUT
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main
+        class="mx-auto max-w-6xl
+               px-4 py-6"
+    >
+
+        <!-- NAVIGATION -->
+
+        <nav
+            class="grid grid-cols-2
+                   gap-3
+                   sm:grid-cols-4"
+        >
+
+            <button
+                data-page="fr"
+                class="nav-button
+                       rounded-xl
+                       border border-red-500/40
+                       bg-red-500/10
+                       px-4 py-4
+                       font-bold
+                       transition
+                       hover:bg-red-500/20"
+            >
+                FR
+            </button>
+
+
+            <button
+                data-page="sr"
+                class="nav-button
+                       rounded-xl
+                       border border-blue-500/40
+                       bg-blue-500/10
+                       px-4 py-4
+                       font-bold
+                       transition
+                       hover:bg-blue-500/20"
+            >
+                SR
+            </button>
+
+
+            <button
+                data-page="house"
+                class="nav-button
+                       rounded-xl
+                       border border-green-500/40
+                       bg-green-500/10
+                       px-4 py-4
+                       font-bold
+                       transition
+                       hover:bg-green-500/20"
+            >
+                HOUSE
+            </button>
+
+
+            <button
+                data-page="ending"
+                class="nav-button
+                       rounded-xl
+                       border border-zinc-700
+                       bg-zinc-900
+                       px-4 py-4
+                       font-bold
+                       transition
+                       hover:bg-zinc-800"
+            >
+                ENDING
+            </button>
+
+        </nav>
+
+
+        <!-- PAGE CONTENT -->
+
+        <section
+            id="app"
+            class="mt-6"
+        >
+
+            {% block content %}
+            {% endblock %}
+
+        </section>
+
+    </main>
+
+
+    <script src="{% static 'js/app.js' %}"></script>
+
+</body>
+
+</html>
