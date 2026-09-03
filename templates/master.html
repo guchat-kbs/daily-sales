@@ -96,38 +96,35 @@
 
         <div
             class="mt-8 grid
-                   grid-cols-2
+                   grid-cols-3
                    gap-3"
         >
 
-            <button
-                id="fr-button"
-                class="rounded-xl
-                       bg-red-600
-                       px-4 py-4
-                       font-black
-                       text-white
-                       shadow-sm
-                       transition
-                       hover:bg-red-700"
-            >
-                FR
-            </button>
+<button
+    id="fr-button"
+    class="rounded-xl border-2 border-red-600 bg-transparent px-4 py-3 font-black text-red-600 shadow-sm transition hover:bg-red-50"
+>
+    FR
+</button>
 
 
-            <button
-                id="sr-button"
-                class="rounded-xl
-                       bg-blue-600
-                       px-4 py-4
-                       font-black
-                       text-white
-                       shadow-sm
-                       transition
-                       hover:bg-blue-700"
-            >
-                SR
-            </button>
+<button
+    id="sr-button"
+    class="rounded-xl border-2 border-blue-600 bg-transparent px-4 py-3 font-black text-blue-600 shadow-sm transition hover:bg-blue-50"
+>
+    SR
+</button>
+
+<button
+    id="users-data-button"
+    class="rounded-xl border-2 border-slate-900 bg-transparent px-4 py-3 font-black text-slate-900 shadow-sm transition hover:bg-slate-100"
+>
+    USERS DATA
+</button>
+
+<!-- DANGER ZONE -->
+
+
 
         </div>
 
@@ -135,6 +132,7 @@
         <!-- TOTAL -->
 
         <div
+        id="master-total-card"
             class="mt-6 rounded-2xl
                    border border-slate-200
                    bg-white
@@ -142,24 +140,24 @@
                    shadow-sm"
         >
 
-            <div
-                id="total-label"
-                class="text-sm
-                       font-bold
-                       text-slate-500"
-            >
-                FR GRAND TOTAL
-            </div>
+<div
+    id="total-label"
+    class="text-sm
+           font-black
+           text-red-300"
+>
+    FR GRAND TOTAL
+</div>
 
 
-            <div
-                id="grand-total"
-                class="mt-3 text-5xl
-                       font-black
-                       text-emerald-600"
-            >
-                ₹0.00
-            </div>
+<div
+    id="grand-total"
+    class="mt-3 text-5xl
+           font-black
+           text-red-600"
+>
+    ₹0.00
+</div>
 
         </div>
 
@@ -167,6 +165,7 @@
         <!-- FR + SR + OVERALL SUMMARY -->
 
         <div
+        id="master-summary"
             class="mt-4 grid
                    grid-cols-3
                    gap-3"
@@ -231,34 +230,222 @@
 
         <!-- PER-NUMBER BREAKDOWN -->
 
+        <!-- PER-NUMBER BREAKDOWN -->
+
         <div
-            class="mt-6 rounded-2xl
+        id="number-breakdown"
+            class="mt-6 overflow-hidden
+                   rounded-2xl
                    border border-slate-200
                    bg-white
-                   p-6
                    shadow-sm"
         >
 
-            <div
-                id="by-number-label"
-                class="text-sm
-                       font-bold
-                       text-slate-500"
-            >
-                FR — NUMBER-WISE TOTALS (00–99)
+            <div class="p-6 pb-4">
+
+                <div
+                    id="by-number-label"
+                    class="text-sm
+                           font-bold
+                           text-slate-500"
+                >
+                    FR — NUMBER-WISE TOTALS
+                </div>
+
             </div>
 
-            <div
-                id="by-number-grid"
-                class="mt-4 grid
-                       grid-cols-5
-                       gap-2
-                       sm:grid-cols-10"
-            >
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full text-left border-collapse border border-black">
+
+<thead class="bg-slate-100 border-b-2 border-black">
+
+                        <tr>
+
+<th
+    class="px-6 py-3
+           text-xs font-black
+           text-slate-500
+           border-r border-black"
+>
+    NUMBER
+</th>
+
+<th
+    class="px-6 py-3
+           text-right
+           text-xs font-black
+           text-slate-500
+           border-r border-black"
+>
+    TOTAL AMOUNT
+</th>
+
+<th
+    class="px-6 py-3
+           text-right
+           text-xs font-black
+           text-slate-500
+           border-r border-black"
+>
+    TOTAL ENTRIES
+</th>
+
+
+                        </tr>
+
+                    </thead>
+
+
+<tbody
+    id="by-number-table"
+>
+</tbody>
+
+                    
+
+                </table>
+
             </div>
 
         </div>
 
+        <!-- USERS DATA -->
+
+<div
+    id="users-data-panel"
+    class="mt-6 hidden overflow-hidden
+           rounded-2xl
+           border border-slate-200
+           bg-white
+           shadow-sm"
+>
+
+    <div class="p-6 pb-4">
+
+        <div
+            class="text-sm
+                   font-bold
+                   text-slate-500"
+        >
+            TODAY'S USERS DATA
+        </div>
+
+    </div>
+
+
+    <div class="overflow-x-auto">
+
+        <table
+            class="w-full text-left
+                   border-collapse
+                   border border-black"
+        >
+
+            <thead
+                class="bg-slate-100
+                       border-b-2
+                       border-black"
+            >
+
+                <tr>
+
+                    <th
+                        class="px-4 py-3
+                               text-xs
+                               font-black
+                               text-slate-500
+                               border-r
+                               border-black"
+                    >
+                        USERNAME
+                    </th>
+
+                    <th
+                        class="px-4 py-3
+                               text-right
+                               text-xs
+                               font-black
+                               text-slate-500
+                               border-r
+                               border-black"
+                    >
+                        FR ENTRIES
+                    </th>
+
+                    <th
+                        class="px-4 py-3
+                               text-right
+                               text-xs
+                               font-black
+                               text-slate-500
+                               border-r
+                               border-black"
+                    >
+                        FR TOTAL
+                    </th>
+
+                    <th
+                        class="px-4 py-3
+                               text-right
+                               text-xs
+                               font-black
+                               text-slate-500
+                               border-r
+                               border-black"
+                    >
+                        SR ENTRIES
+                    </th>
+
+                    <th
+                        class="px-4 py-3
+                               text-right
+                               text-xs
+                               font-black
+                               text-slate-500
+                               border-r
+                               border-black"
+                    >
+                        SR TOTAL
+                    </th>
+
+                    <th
+                        class="px-4 py-3
+                               text-right
+                               text-xs
+                               font-black
+                               text-slate-500
+                               border-r
+                               border-black"
+                    >
+                        TOTAL ENTRIES
+                    </th>
+
+                    <th
+                        class="px-4 py-3
+                               text-right
+                               text-xs
+                               font-black
+                               text-slate-500"
+                    >
+                        TOTAL AMOUNT
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="users-data-table">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
 
         <!-- DATE -->
 
@@ -274,156 +461,751 @@
 
     </div>
 
+<div class="col-span-3 mt-10 w-full rounded-2xl border-2 border-red-200 bg-red-50 p-5">
+
+    <div class="text-sm font-black text-red-700">
+        DANGER ZONE
+    </div>
+
+    <p class="mt-1 text-xs font-medium text-red-600">
+        Permanently erase all entry data from the database.
+    </p>
+
+    <button
+        id="delete-all-data-button"
+        type="button"
+        class="mt-4 w-full rounded-xl border-2 border-red-600
+               bg-red-600 px-4 py-3 text-sm font-black
+               text-white transition hover:bg-red-700"
+    >
+        ERASE ALL DATA
+    </button>
+
+</div>
+
+<!-- DELETE ALL DATA MODAL -->
+
+<div
+    id="delete-all-modal"
+    class="fixed inset-0 z-50 hidden
+           items-center justify-center
+           bg-black/60 px-4"
+>
+    <div
+        class="w-full max-w-md rounded-2xl
+               bg-white p-6 shadow-2xl"
+    >
+
+        <h3 class="text-xl font-black text-red-600">
+            DELETE ALL DATA
+        </h3>
+
+        <p class="mt-3 text-sm font-medium text-slate-600">
+            This action will permanently delete
+            <strong>ALL entries</strong> from the database.
+            This cannot be undone.
+        </p>
+
+        <p class="mt-5 text-sm font-bold text-slate-900">
+            Type
+            <span class="text-red-600">
+                DELETE ALL DATA
+            </span>
+            to continue.
+        </p>
+
+        <input
+            id="delete-all-confirmation"
+            type="text"
+            autocomplete="off"
+            class="mt-2 w-full rounded-xl border-2
+                   border-slate-300 px-4 py-3
+                   text-sm font-bold outline-none
+                   focus:border-red-600"
+            placeholder="DELETE ALL DATA"
+        >
+
+        <div class="mt-5 grid grid-cols-2 gap-3">
+
+            <button
+                id="cancel-delete-all"
+                type="button"
+                class="rounded-xl border-2 border-slate-300
+                       bg-white px-4 py-3
+                       text-sm font-black text-slate-700"
+            >
+                CANCEL
+            </button>
+
+            <button
+                id="confirm-delete-all"
+                type="button"
+                class="rounded-xl border-2 border-red-600
+                       bg-red-600 px-4 py-3
+                       text-sm font-black text-white
+                       hover:bg-red-700"
+            >
+                DELETE ALL
+            </button>
+
+        </div>
+
+        <p
+            id="delete-all-error"
+            class="mt-3 hidden text-center
+                   text-sm font-bold text-red-600"
+        ></p>
+
+    </div>
+</div>
 
 <script>
-
     let currentType = "FR";
 
 
-    function renderByNumberGrid(byNumber) {
+    /* --------------------------------------------------
+       AMOUNT COLOR
+    -------------------------------------------------- */
 
-        const grid =
-            document.getElementById("by-number-grid");
+    function getAmountColorClass(amount) {
+        amount = Number(amount) || 0;
+
+        if (amount <= 500) {
+            return "text-green-600";
+        }
+
+        if (amount <= 1000) {
+            return "text-yellow-600";
+        }
+
+        if (amount <= 1500) {
+            return "text-orange-600";
+        }
+
+        if (amount <= 2000) {
+            return "text-red-600";
+        }
+
+        return "text-blue-600";
+    }
+
+
+    /* --------------------------------------------------
+       NUMBER TABLE
+    -------------------------------------------------- */
+
+    function renderByNumberTable(byNumber) {
+        const table =
+            document.getElementById("by-number-table");
 
         const numbers =
             Object.keys(byNumber).sort();
 
-        grid.innerHTML = numbers.map(number => {
-
-            const amount = Number(byNumber[number]) || 0;
-
-            const hasAmount = amount > 0;
-
-            return `
-                <div
-                    class="rounded-lg border px-2 py-2 text-center
-                           ${hasAmount
-                               ? "border-emerald-300 bg-emerald-50"
-                               : "border-slate-200 bg-slate-50"}"
-                >
-                    <div class="text-[11px] font-bold text-slate-500">
-                        ${number}
-                    </div>
-                    <div
-                        class="mt-0.5 text-xs font-black
-                               ${hasAmount
-                                   ? "text-emerald-700"
-                                   : "text-slate-400"}"
+        if (numbers.length === 0) {
+            table.innerHTML = `
+                <tr>
+                    <td
+                        colspan="3"
+                        class="px-4 py-6
+                               text-center
+                               text-sm
+                               font-medium
+                               text-slate-400
+                               border-b
+                               border-black"
                     >
-                        ${amount.toFixed(2)}
-                    </div>
-                </div>
+                        No entries yet.
+                    </td>
+                </tr>
             `;
 
-        }).join("");
+            return;
+        }
 
+
+        table.innerHTML =
+            numbers.map(number => {
+
+                const data =
+                    byNumber[number];
+
+                const amount =
+                    Number(data.total_amount) || 0;
+
+                const entries =
+                    Number(data.total_entries) || 0;
+
+                const amountColor =
+                    getAmountColorClass(amount);
+
+
+                return `
+                    <tr
+                        class="border-b
+                               border-black
+                               transition
+                               hover:bg-slate-50"
+                    >
+
+                        <td
+                            class="px-4 py-2
+                                   text-sm
+                                   font-black
+                                   text-slate-900
+                                   border-r
+                                   border-black"
+                        >
+                            ${number}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-black
+                                   ${amountColor}
+                                   border-r
+                                   border-black"
+                        >
+                            ₹${amount.toFixed(2)}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-bold
+                                   text-slate-900"
+                        >
+                            ${entries}
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
     }
 
+
+    /* --------------------------------------------------
+       USERS DATA TABLE
+    -------------------------------------------------- */
+
+    function renderUsersData(users) {
+
+        const table =
+            document.getElementById(
+                "users-data-table"
+            );
+
+
+        if (!table) {
+            return;
+        }
+
+
+        if (users.length === 0) {
+
+            table.innerHTML = `
+                <tr>
+                    <td
+                        colspan="7"
+                        class="px-4 py-6
+                               text-center
+                               text-sm
+                               font-medium
+                               text-slate-400
+                               border-b
+                               border-black"
+                    >
+                        No registered users found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        table.innerHTML =
+            users.map(user => {
+
+                const frTotal =
+                    Number(user.fr_total) || 0;
+
+                const srTotal =
+                    Number(user.sr_total) || 0;
+
+                const totalAmount =
+                    Number(user.total_amount) || 0;
+
+
+                const frColor =
+                    getAmountColorClass(frTotal);
+
+                const srColor =
+                    getAmountColorClass(srTotal);
+
+                const totalColor =
+                    getAmountColorClass(totalAmount);
+
+
+                const hasEntries =
+                    Number(user.total_entries) > 0;
+
+
+                return `
+                    <tr
+                        class="border-b
+                               border-black
+                               transition
+                               hover:bg-slate-50
+                               ${hasEntries ? "" : "bg-slate-50"}"
+                    >
+
+                        <td
+                            class="px-4 py-2
+                                   text-sm
+                                   font-black
+                                   text-slate-900
+                                   border-r
+                                   border-black"
+                        >
+                            ${user.username}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-bold
+                                   text-slate-900
+                                   border-r
+                                   border-black"
+                        >
+                            ${user.fr_entries}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-black
+                                   ${frColor}
+                                   border-r
+                                   border-black"
+                        >
+                            ₹${frTotal.toFixed(2)}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-bold
+                                   text-slate-900
+                                   border-r
+                                   border-black"
+                        >
+                            ${user.sr_entries}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-black
+                                   ${srColor}
+                                   border-r
+                                   border-black"
+                        >
+                            ₹${srTotal.toFixed(2)}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-bold
+                                   text-slate-900
+                                   border-r
+                                   border-black"
+                        >
+                            ${user.total_entries}
+                        </td>
+
+
+                        <td
+                            class="px-4 py-2
+                                   text-right
+                                   text-sm
+                                   font-black
+                                   ${totalColor}"
+                        >
+                            ₹${totalAmount.toFixed(2)}
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+    }
+
+
+    /* --------------------------------------------------
+       LOAD MASTER TOTAL
+    -------------------------------------------------- */
 
     async function loadTotal() {
 
         const totalElement =
-            document.getElementById("grand-total");
+            document.getElementById(
+                "grand-total"
+            );
 
-        totalElement.textContent = "Loading...";
+
+        totalElement.textContent =
+            "Loading...";
 
 
         try {
 
-            const response = await fetch(
-                `/api/master-total/?type=${currentType}`
-            );
+            const response =
+                await fetch(
+                    `/api/master-total/?type=${currentType}`
+                );
 
 
             if (!response.ok) {
-
                 throw new Error(
                     "Failed to load total."
                 );
-
             }
 
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
 
             totalElement.textContent =
-                `₹${Number(data.grand_total).toFixed(2)}`;
+                `₹${Number(
+                    data.grand_total
+                ).toFixed(2)}`;
 
-            document.getElementById("fr-total").textContent =
-                `₹${Number(data.fr_total).toFixed(2)}`;
 
-            document.getElementById("sr-total").textContent =
-                `₹${Number(data.sr_total).toFixed(2)}`;
+            document.getElementById(
+                "fr-total"
+            ).textContent =
+                `₹${Number(
+                    data.fr_total
+                ).toFixed(2)}`;
 
-            document.getElementById("overall-total").textContent =
-                `₹${Number(data.overall_total).toFixed(2)}`;
 
-            document.getElementById("by-number-label").textContent =
-                `${currentType} — NUMBER-WISE TOTALS (00–99)`;
+            document.getElementById(
+                "sr-total"
+            ).textContent =
+                `₹${Number(
+                    data.sr_total
+                ).toFixed(2)}`;
 
-            renderByNumberGrid(data.by_number || {});
+
+            document.getElementById(
+                "overall-total"
+            ).textContent =
+                `₹${Number(
+                    data.overall_total
+                ).toFixed(2)}`;
+
+
+            document.getElementById(
+                "by-number-label"
+            ).textContent =
+                `${currentType} — NUMBER-WISE TOTALS`;
+
+
+            renderByNumberTable(
+                data.by_number || {}
+            );
 
 
         } catch (error) {
 
+            console.error(error);
+
             totalElement.textContent =
                 "Error";
+        }
+    }
+
+
+    /* --------------------------------------------------
+       LOAD USERS DATA
+    -------------------------------------------------- */
+
+    async function loadUsersData() {
+
+        const table =
+            document.getElementById(
+                "users-data-table"
+            );
+
+
+        table.innerHTML = `
+            <tr>
+                <td
+                    colspan="7"
+                    class="px-4 py-8
+                           text-center
+                           text-sm
+                           font-medium
+                           text-slate-400
+                           border-b
+                           border-black"
+                >
+                    Loading users data...
+                </td>
+            </tr>
+        `;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/master-users-data/"
+                );
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to load users data."
+                );
+            }
+
+
+            const data =
+                await response.json();
+
+
+            renderUsersData(
+                data.users || []
+            );
+
+
+        } catch (error) {
 
             console.error(error);
 
-        }
 
+            table.innerHTML = `
+                <tr>
+                    <td
+                        colspan="7"
+                        class="px-4 py-8
+                               text-center
+                               text-sm
+                               font-bold
+                               text-red-600"
+                    >
+                        Failed to load users data.
+                    </td>
+                </tr>
+            `;
+        }
     }
 
+
+    /* --------------------------------------------------
+       PANEL SWITCHING
+    -------------------------------------------------- */
+
+    function showMainPanel() {
+
+        document.getElementById(
+            "users-data-panel"
+        ).classList.add("hidden");
+
+
+        document.getElementById(
+            "master-total-card"
+        ).classList.remove("hidden");
+
+
+        document.getElementById(
+            "master-summary"
+        ).classList.remove("hidden");
+
+
+        document.getElementById(
+            "number-breakdown"
+        ).classList.remove("hidden");
+    }
+
+
+    function showUsersPanel() {
+
+        document.getElementById(
+            "master-total-card"
+        ).classList.add("hidden");
+
+
+        document.getElementById(
+            "master-summary"
+        ).classList.add("hidden");
+
+
+        document.getElementById(
+            "number-breakdown"
+        ).classList.add("hidden");
+
+
+        document.getElementById(
+            "users-data-panel"
+        ).classList.remove("hidden");
+
+
+        loadUsersData();
+    }
+
+
+    /* --------------------------------------------------
+       FR / SR SWITCH
+    -------------------------------------------------- */
 
     function selectType(type) {
 
         currentType = type;
 
 
-        document.getElementById(
-            "total-label"
-        ).textContent =
-            `${type} GRAND TOTAL`;
+        showMainPanel();
 
 
         const frButton =
-            document.getElementById("fr-button");
+            document.getElementById(
+                "fr-button"
+            );
 
         const srButton =
-            document.getElementById("sr-button");
+            document.getElementById(
+                "sr-button"
+            );
 
+        const usersButton =
+            document.getElementById(
+                "users-data-button"
+            );
+
+        const grandTotal =
+            document.getElementById(
+                "grand-total"
+            );
+
+        const totalLabel =
+            document.getElementById(
+                "total-label"
+            );
+
+
+        /*
+         * USERS DATA becomes unselected.
+         */
+
+        usersButton.className =
+            "rounded-xl border-2 border-slate-900 " +
+            "bg-transparent px-4 py-3 " +
+            "font-black text-slate-900 " +
+            "shadow-sm transition hover:bg-slate-100";
+
+
+        /*
+         * FR selected.
+         */
 
         if (type === "FR") {
 
+            grandTotal.className =
+                "mt-3 text-5xl font-black text-red-600";
+
+
+            totalLabel.className =
+                "text-sm font-black text-red-300";
+
+
+            totalLabel.textContent =
+                "FR GRAND TOTAL";
+
+
             frButton.className =
-                "rounded-xl bg-red-600 px-4 py-4 font-black text-white shadow-sm transition hover:bg-red-700 ring-2 ring-red-600 ring-offset-2";
+                "rounded-xl border-2 border-red-600 " +
+                "bg-red-600 px-4 py-3 " +
+                "font-black text-white " +
+                "shadow-sm transition hover:bg-red-700";
+
 
             srButton.className =
-                "rounded-xl bg-blue-600/40 px-4 py-4 font-black text-white shadow-sm transition hover:bg-blue-600";
-
-        } else {
-
-            frButton.className =
-                "rounded-xl bg-red-600/40 px-4 py-4 font-black text-white shadow-sm transition hover:bg-red-600";
-
-            srButton.className =
-                "rounded-xl bg-blue-600 px-4 py-4 font-black text-white shadow-sm transition hover:bg-blue-700 ring-2 ring-blue-600 ring-offset-2";
+                "rounded-xl border-2 border-blue-600 " +
+                "bg-transparent px-4 py-3 " +
+                "font-black text-blue-600 " +
+                "shadow-sm transition hover:bg-blue-50";
 
         }
 
 
-        loadTotal();
+        /*
+         * SR selected.
+         */
 
+        else {
+
+            grandTotal.className =
+                "mt-3 text-5xl font-black text-blue-600";
+
+
+            totalLabel.className =
+                "text-sm font-black text-blue-300";
+
+
+            totalLabel.textContent =
+                "SR GRAND TOTAL";
+
+
+            frButton.className =
+                "rounded-xl border-2 border-red-600 " +
+                "bg-transparent px-4 py-3 " +
+                "font-black text-red-600 " +
+                "shadow-sm transition hover:bg-red-50";
+
+
+            srButton.className =
+                "rounded-xl border-2 border-blue-600 " +
+                "bg-blue-600 px-4 py-3 " +
+                "font-black text-white " +
+                "shadow-sm transition hover:bg-blue-700";
+        }
+
+
+        loadTotal();
     }
 
+
+    /* --------------------------------------------------
+       BUTTON EVENTS
+    -------------------------------------------------- */
 
     document
         .getElementById("fr-button")
         .addEventListener(
             "click",
-            () => selectType("FR")
+            function () {
+                selectType("FR");
+            }
         );
 
 
@@ -431,9 +1213,53 @@
         .getElementById("sr-button")
         .addEventListener(
             "click",
-            () => selectType("SR")
+            function () {
+                selectType("SR");
+            }
         );
 
+
+    document
+        .getElementById("users-data-button")
+        .addEventListener(
+            "click",
+            function () {
+
+                showUsersPanel();
+
+
+                document.getElementById(
+                    "fr-button"
+                ).className =
+                    "rounded-xl border-2 border-red-600 " +
+                    "bg-transparent px-4 py-3 " +
+                    "font-black text-red-600 " +
+                    "shadow-sm transition hover:bg-red-50";
+
+
+                document.getElementById(
+                    "sr-button"
+                ).className =
+                    "rounded-xl border-2 border-blue-600 " +
+                    "bg-transparent px-4 py-3 " +
+                    "font-black text-blue-600 " +
+                    "shadow-sm transition hover:bg-blue-50";
+
+
+                document.getElementById(
+                    "users-data-button"
+                ).className =
+                    "rounded-xl border-2 border-slate-900 " +
+                    "bg-slate-900 px-4 py-3 " +
+                    "font-black text-white " +
+                    "shadow-sm transition hover:bg-slate-700";
+            }
+        );
+
+
+    /* --------------------------------------------------
+       DATE
+    -------------------------------------------------- */
 
     const today =
         new Date();
@@ -453,7 +1279,143 @@
         );
 
 
-    loadTotal();
+    /* --------------------------------------------------
+       INITIAL STATE
+    -------------------------------------------------- */
+
+    selectType("FR");
+
+
+    const deleteAllButton =
+    document.getElementById("delete-all-data-button");
+
+const deleteAllModal =
+    document.getElementById("delete-all-modal");
+
+const cancelDeleteAll =
+    document.getElementById("cancel-delete-all");
+
+const confirmDeleteAll =
+    document.getElementById("confirm-delete-all");
+
+const deleteAllConfirmation =
+    document.getElementById("delete-all-confirmation");
+
+const deleteAllError =
+    document.getElementById("delete-all-error");
+
+
+deleteAllButton.addEventListener("click", () => {
+
+    deleteAllConfirmation.value = "";
+    deleteAllError.classList.add("hidden");
+
+    deleteAllModal.classList.remove("hidden");
+    deleteAllModal.classList.add("flex");
+
+    deleteAllConfirmation.focus();
+});
+
+
+cancelDeleteAll.addEventListener("click", () => {
+
+    deleteAllModal.classList.add("hidden");
+    deleteAllModal.classList.remove("flex");
+
+});
+
+
+confirmDeleteAll.addEventListener("click", async () => {
+
+    const confirmation =
+        deleteAllConfirmation.value.trim();
+
+    if (confirmation !== "DELETE ALL DATA") {
+
+        deleteAllError.textContent =
+            'You must enter exactly "DELETE ALL DATA".';
+
+        deleteAllError.classList.remove("hidden");
+
+        return;
+    }
+
+
+    confirmDeleteAll.disabled = true;
+    confirmDeleteAll.textContent = "DELETING...";
+
+
+    try {
+
+        const csrfToken = document.cookie
+    .split("; ")
+    .find(row => row.startsWith("csrftoken="))
+    ?.split("=")[1];
+
+const response = await fetch(
+    "/api/master-delete-all/",
+    {
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrfToken,
+        },
+
+        body: JSON.stringify({
+            confirmation: confirmation
+        })
+    }
+);
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+            throw new Error(
+                data.error ||
+                "Failed to delete all data."
+            );
+        }
+
+
+        deleteAllModal.classList.add("hidden");
+        deleteAllModal.classList.remove("flex");
+
+
+        alert(
+            `All entry data has been deleted.\n\n` +
+            `${data.deleted_entries} entries removed.`
+        );
+
+
+        // Refresh Master data
+        await loadTotal();
+
+
+        if (
+            typeof loadUsersData === "function"
+        ) {
+            await loadUsersData();
+        }
+
+
+    } catch (error) {
+
+        deleteAllError.textContent =
+            error.message;
+
+        deleteAllError.classList.remove("hidden");
+
+    } finally {
+
+        confirmDeleteAll.disabled = false;
+        confirmDeleteAll.textContent = "DELETE ALL";
+
+    }
+
+});
 
 </script>
 

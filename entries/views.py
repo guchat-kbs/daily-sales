@@ -1,4 +1,4 @@
-from django.db.models import Sum
+from django.db.models import Count, Q, Sum
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
@@ -8,6 +8,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+
+from django.contrib.auth.models import User
 
 from django.shortcuts import get_object_or_404
 
@@ -375,21 +377,26 @@ def master_total_api(request):
 
     today = timezone.localdate()
 
-    # Per-number (00-99) breakdown for the selected entry type.
-    # Numbers are zero-padded in Python so that older, non-padded
-    # values (e.g. "5") and newer padded values (e.g. "05") are
-    # merged into the same bucket.
+    # Master totals must use the same user population as USERS DATA:
+    # only users who are NOT in the Master group.
+    # This keeps FR/SR entry counts and amounts consistent with
+    # the totals shown in USERS DATA.
+    normal_user_ids = (
+        User.objects
+        .exclude(groups__name="Master")
+        .values_list("id", flat=True)
+    )
 
-    by_number = {
-        f"{n:02d}": 0
-        for n in range(100)
-    }
+    # Per-number breakdown.
+    # Only numbers that actually have entries are returned.
+    by_number = {}
 
     type_entries = (
         Entry.objects
         .filter(
             business_date=today,
             entry_type=entry_type,
+            owner_id__in=normal_user_ids,
         )
         .values_list("number", "amount")
     )
@@ -400,10 +407,14 @@ def master_total_api(request):
 
         padded = number.strip().zfill(2)
 
-        if padded in by_number:
-            by_number[padded] += amount
-        else:
-            by_number[padded] = by_number.get(padded, 0) + amount
+        if padded not in by_number:
+            by_number[padded] = {
+                "total_amount": 0,
+                "total_entries": 0,
+            }
+
+        by_number[padded]["total_amount"] += amount
+        by_number[padded]["total_entries"] += 1
 
         total += amount
 
@@ -412,6 +423,7 @@ def master_total_api(request):
         .filter(
             business_date=today,
             entry_type="FR",
+            owner_id__in=normal_user_ids,
         )
         .aggregate(
             total=Sum("amount")
@@ -424,6 +436,7 @@ def master_total_api(request):
         .filter(
             business_date=today,
             entry_type="SR",
+            owner_id__in=normal_user_ids,
         )
         .aggregate(
             total=Sum("amount")
@@ -442,3 +455,151 @@ def master_total_api(request):
         "overall_total": overall_total,
         "by_number": by_number,
     })
+
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def master_users_data_api(request):
+
+    if not request.user.groups.filter(
+        name="Master"
+    ).exists():
+
+        return Response(
+            {"error": "Master access required."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+
+    today = timezone.localdate()
+
+
+    # Get all registered users except Master users.
+    users = (
+        User.objects
+        .exclude(groups__name="Master")
+        .order_by("username")
+    )
+
+
+    # Aggregate today's entries for every user
+    # in one database query.
+    user_totals = (
+        Entry.objects
+        .filter(
+            business_date=today
+        )
+        .values("owner_id")
+        .annotate(
+            total_entries=Count("id"),
+            total_amount=Sum("amount"),
+
+            fr_entries=Count(
+                "id",
+                filter=Q(entry_type="FR")
+            ),
+
+            fr_total=Sum(
+                "amount",
+                filter=Q(entry_type="FR")
+            ),
+
+            sr_entries=Count(
+                "id",
+                filter=Q(entry_type="SR")
+            ),
+
+            sr_total=Sum(
+                "amount",
+                filter=Q(entry_type="SR")
+            ),
+        )
+    )
+
+
+    totals_by_user = {
+        item["owner_id"]: item
+        for item in user_totals
+    }
+
+
+    users_data = []
+
+
+    for user in users:
+
+        data = totals_by_user.get(
+            user.id,
+            {}
+        )
+
+
+        users_data.append({
+            "username": user.username,
+
+            "fr_entries":
+                data.get("fr_entries", 0)
+                or 0,
+
+            "fr_total":
+                data.get("fr_total", 0)
+                or 0,
+
+            "sr_entries":
+                data.get("sr_entries", 0)
+                or 0,
+
+            "sr_total":
+                data.get("sr_total", 0)
+                or 0,
+
+            "total_entries":
+                data.get("total_entries", 0)
+                or 0,
+
+            "total_amount":
+                data.get("total_amount", 0)
+                or 0,
+        })
+
+
+    return Response({
+        "date": today,
+        "users": users_data,
+    })
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def delete_all_entries_api(request):
+
+    if not request.user.groups.filter(name="Master").exists():
+        return Response(
+            {"error": "Master access required."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    confirmation = str(
+        request.data.get("confirmation", "")
+    ).strip()
+
+    if confirmation != "DELETE ALL DATA":
+        return Response(
+            {
+                "error": (
+                    'Confirmation failed. '
+                    'You must enter "DELETE ALL DATA".'
+                )
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    deleted_count, _ = Entry.objects.all().delete()
+
+    return Response(
+        {
+            "message": "All entry data has been permanently deleted.",
+            "deleted_entries": deleted_count,
+        },
+        status=status.HTTP_200_OK,
+    )

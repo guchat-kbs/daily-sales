@@ -123,6 +123,8 @@ else:
     }
 
 # settings.py
+
+#down here is for localhost
 # import os
 
 # if os.getenv('RENDER'):

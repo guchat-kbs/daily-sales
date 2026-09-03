@@ -4,6 +4,29 @@ let currentEntryType = "FR";
 
 let notificationTimeout = null;
 
+function getAmountColorClass(amount) {
+
+    amount = Number(amount) || 0;
+
+    if (amount <= 500) {
+        return "text-green-600";
+    }
+
+    if (amount <= 1000) {
+        return "text-yellow-600";
+    }
+
+    if (amount <= 1500) {
+        return "text-orange-600";
+    }
+
+    if (amount <= 2000) {
+        return "text-red-600";
+    }
+
+    return "text-blue-600";
+}
+
 
 /* --------------------------------------------------
    INPUT RESTRICTIONS
@@ -374,7 +397,7 @@ function renderEntryPage() {
                 class="mt-2
                        text-4xl font-black
                        tracking-tight
-                       text-green-600
+                       text-slate-900
                        sm:text-5xl"
             >
                 ₹0.00
@@ -491,6 +514,9 @@ function renderEntries(entries) {
         const amount =
             Number(entry.amount).toFixed(2);
 
+        const amountColor =
+    getAmountColorClass(entry.amount);
+
         const paddedNumber =
             String(entry.number).padStart(2, "0");
 
@@ -508,12 +534,12 @@ function renderEntries(entries) {
         return `
             <div
                 class="grid
-                       grid-cols-[60px_1fr_1fr_1fr_auto]
-                       items-center
-                       gap-3
-                       px-4 py-4
-                       sm:grid-cols-[70px_1fr_1fr_1fr_80px]
-                       sm:gap-4"
+       grid-cols-[60px_1fr_1fr_1fr_auto]
+       items-center
+       gap-3
+       px-4 py-2
+       sm:grid-cols-[70px_1fr_1fr_1fr_80px]
+       sm:gap-4"
             >
 
                 <div class="font-bold text-zinc-600">
@@ -527,8 +553,8 @@ function renderEntries(entries) {
 
 
                 <div class="font-bold text-green-600">
-                    ₹${amount}
-                </div>
+    ₹${amount}
+</div>
 
 
                 <div class="text-sm text-zinc-600">
