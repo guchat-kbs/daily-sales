@@ -1,5 +1,5 @@
 from django.db.models import Sum
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from django.db import transaction
@@ -17,10 +17,19 @@ from .serializers import EntrySerializer
 from django.contrib.auth.decorators import login_required
 
 
+def is_master(user):
+    return (
+        user.is_authenticated
+        and user.groups.filter(name="Master").exists()
+    )
 
 
 @login_required
 def home(request):
+
+    if is_master(request.user):
+        return redirect("master")
+
     return render(request, "home.html")
 
 
@@ -82,9 +91,9 @@ def entries_api(request):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    if len(data) > 8:
+    if len(data) > 15:
         return Response(
-            {"error": "Maximum 8 entries allowed at once."},
+            {"error": "Maximum 15 entries allowed at once."},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
