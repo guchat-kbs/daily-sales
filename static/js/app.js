@@ -5,6 +5,42 @@ let currentEntryType = "FR";
 let notificationTimeout = null;
 
 
+/* --------------------------------------------------
+   INPUT RESTRICTIONS
+-------------------------------------------------- */
+
+
+function restrictToDigits(input, maxLength) {
+
+    input.addEventListener("input", () => {
+
+        input.value = input.value
+            .replace(/[^0-9]/g, "")
+            .slice(0, maxLength);
+    });
+}
+
+
+function restrictToDecimal(input) {
+
+    input.addEventListener("input", () => {
+
+        let value = input.value.replace(/[^0-9.]/g, "");
+
+        const firstDot = value.indexOf(".");
+
+        if (firstDot !== -1) {
+
+            value =
+                value.slice(0, firstDot + 1) +
+                value.slice(firstDot + 1).replace(/\./g, "");
+        }
+
+        input.value = value;
+    });
+}
+
+
 function getCookie(name) {
 
     const cookies = document.cookie.split(";");
@@ -40,10 +76,10 @@ function showNotification(message, type = "success") {
         "hidden",
         "border-green-500/30",
         "bg-green-500/10",
-        "text-green-400",
+        "text-green-600",
         "border-red-500/30",
         "bg-red-500/10",
-        "text-red-400"
+        "text-red-600"
     );
 
 
@@ -52,7 +88,7 @@ function showNotification(message, type = "success") {
         notification.classList.add(
             "border-green-500/30",
             "bg-green-500/10",
-            "text-green-400"
+            "text-green-600"
         );
 
     } else {
@@ -60,7 +96,7 @@ function showNotification(message, type = "success") {
         notification.classList.add(
             "border-red-500/30",
             "bg-red-500/10",
-            "text-red-400"
+            "text-red-600"
         );
     }
 
@@ -115,14 +151,14 @@ function renderEntryPage() {
         <div
             class="overflow-hidden
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950"
+                   border border-zinc-200
+                   bg-white"
         >
 
             <div
                 class="grid grid-cols-2
                        gap-3
-                       border-b border-zinc-800
+                       border-b border-zinc-200
                        px-4 py-3
                        text-xs font-bold
                        text-zinc-500
@@ -144,11 +180,29 @@ function renderEntryPage() {
 
                 <div
                     id="entry-rows"
-                    class="divide-y divide-zinc-800"
+                    class="divide-y divide-zinc-200"
                 >
 
+                    <div class="px-4 py-3">
+
+                        <button
+                            type="submit"
+                            class="w-full rounded-lg
+                                   bg-blue-600
+                                   px-4 py-2
+                                   text-xs font-black
+                                   text-white
+                                   transition
+                                   hover:bg-blue-500
+                                   active:scale-[0.98]"
+                        >
+                            SUBMIT
+                        </button>
+
+                    </div>
+
                     ${Array.from(
-                        { length: 8 },
+                        { length: 15 },
                         () => `
 
                         <div
@@ -160,15 +214,18 @@ function renderEntryPage() {
                             <input
                                 type="text"
                                 autocomplete="off"
-                                placeholder="Number"
+                                inputmode="numeric"
+                                pattern="[0-9]*"
+                                maxlength="2"
+                                placeholder="00-99"
                                 class="number-input
                                        w-full min-w-0
                                        rounded-xl
-                                       border border-zinc-700
-                                       bg-black
+                                       border border-zinc-300
+                                       bg-white
                                        px-3 py-3
-                                       text-white
-                                       placeholder:text-zinc-700
+                                       text-zinc-900
+                                       placeholder:text-zinc-400
                                        outline-none
                                        transition
                                        focus:border-blue-500"
@@ -176,18 +233,19 @@ function renderEntryPage() {
 
 
                             <input
-                                type="number"
-                                min="0"
-                                step="0.01"
+                                type="text"
+                                autocomplete="off"
+                                inputmode="decimal"
+                                pattern="[0-9]*\\.?[0-9]*"
                                 placeholder="Amount"
                                 class="amount-input
                                        w-full min-w-0
                                        rounded-xl
-                                       border border-zinc-700
-                                       bg-black
+                                       border border-zinc-300
+                                       bg-white
                                        px-3 py-3
-                                       text-white
-                                       placeholder:text-zinc-700
+                                       text-zinc-900
+                                       placeholder:text-zinc-400
                                        outline-none
                                        transition
                                        focus:border-blue-500"
@@ -203,7 +261,7 @@ function renderEntryPage() {
 
                 <div
                     class="flex justify-end
-                           border-t border-zinc-800
+                           border-t border-zinc-200
                            p-4"
                 >
 
@@ -214,7 +272,7 @@ function renderEntryPage() {
                                bg-blue-600
                                px-8 py-3
                                font-black
-                               text-white
+                               text-zinc-900
                                transition
                                hover:bg-blue-500
                                disabled:cursor-not-allowed
@@ -238,15 +296,15 @@ function renderEntryPage() {
             class="mt-6
                    overflow-hidden
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950"
+                   border border-zinc-200
+                   bg-white"
         >
 
             <div
                 class="grid
                        grid-cols-[60px_1fr_1fr_1fr_auto]
                        gap-3
-                       border-b border-zinc-800
+                       border-b border-zinc-200
                        px-4 py-3
                        text-xs font-bold
                        text-zinc-500
@@ -277,7 +335,7 @@ function renderEntryPage() {
 
             <div
                 id="entries-container"
-                class="divide-y divide-zinc-800"
+                class="divide-y divide-zinc-200"
             >
 
                 <div
@@ -297,15 +355,15 @@ function renderEntryPage() {
         <div
             class="mt-6
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950
+                   border border-zinc-200
+                   bg-white
                    p-5 sm:p-6"
         >
 
             <div
                 class="text-sm font-bold
                        tracking-wide
-                       text-zinc-400"
+                       text-zinc-600"
             >
                 GRAND TOTAL
             </div>
@@ -316,7 +374,7 @@ function renderEntryPage() {
                 class="mt-2
                        text-4xl font-black
                        tracking-tight
-                       text-green-400
+                       text-green-600
                        sm:text-5xl"
             >
                 ₹0.00
@@ -387,7 +445,7 @@ async function loadEntries() {
 
 
         container.innerHTML = `
-            <div class="p-8 text-center text-red-400">
+            <div class="p-8 text-center text-red-600">
                 Failed to load entries.
             </div>
         `;
@@ -455,7 +513,7 @@ function renderEntries(entries) {
                        sm:gap-4"
             >
 
-                <div class="font-bold text-zinc-400">
+                <div class="font-bold text-zinc-600">
                     ${entry.entry_type}
                 </div>
 
@@ -465,12 +523,12 @@ function renderEntries(entries) {
                 </div>
 
 
-                <div class="font-bold text-green-400">
+                <div class="font-bold text-green-600">
                     ₹${amount}
                 </div>
 
 
-                <div class="text-sm text-zinc-400">
+                <div class="text-sm text-zinc-600">
                     ${time}
                 </div>
 
@@ -485,7 +543,7 @@ function renderEntries(entries) {
                                border border-red-500/30
                                px-2 py-2
                                text-xs font-bold
-                               text-red-400
+                               text-red-600
                                transition
                                hover:bg-red-500/10"
                     >
@@ -557,9 +615,27 @@ async function addEntries(event) {
         }
 
 
+        if (
+            !/^[0-9]{1,2}$/.test(number) ||
+            Number(number) > 99
+        ) {
+
+            showNotification(
+                `Row ${i + 1}: Number must be between 00 and 99.`,
+                "error"
+            );
+
+            return;
+        }
+
+
+        const normalizedNumber =
+            String(Number(number));
+
+
         entries.push({
             entry_type: currentEntryType,
-            number: number,
+            number: normalizedNumber,
             amount: amount,
         });
     }
@@ -683,7 +759,7 @@ function renderHousePage() {
                        bg-red-500/10
                        px-4 py-4
                        font-black
-                       text-red-400
+                       text-red-600
                        transition
                        hover:bg-red-500/20"
             >
@@ -695,13 +771,13 @@ function renderHousePage() {
                 id="house-sr-button"
                 type="button"
                 class="rounded-xl
-                       border border-zinc-700
-                       bg-zinc-900
+                       border border-zinc-300
+                       bg-zinc-50
                        px-4 py-4
                        font-black
-                       text-zinc-400
+                       text-zinc-600
                        transition
-                       hover:bg-zinc-800"
+                       hover:bg-zinc-100"
             >
                 SR
             </button>
@@ -715,14 +791,14 @@ function renderHousePage() {
             class="mt-6
                    overflow-hidden
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950"
+                   border border-zinc-200
+                   bg-white"
         >
 
             <div
                 class="grid grid-cols-2
                        gap-3
-                       border-b border-zinc-800
+                       border-b border-zinc-200
                        px-4 py-3
                        text-xs font-bold
                        text-zinc-500
@@ -744,8 +820,26 @@ function renderHousePage() {
 
                 <div
                     class="divide-y
-                           divide-zinc-800"
+                           divide-zinc-200"
                 >
+
+                    <div class="px-4 py-3">
+
+                        <button
+                            type="submit"
+                            class="w-full rounded-lg
+                                   bg-blue-600
+                                   px-4 py-2
+                                   text-xs font-black
+                                   text-white
+                                   transition
+                                   hover:bg-blue-500
+                                   active:scale-[0.98]"
+                        >
+                            SUBMIT
+                        </button>
+
+                    </div>
 
                     ${Array.from(
                         { length: 3 },
@@ -758,40 +852,40 @@ function renderHousePage() {
                                    sm:gap-4"
                         >
 
-                            <input
-                                type="number"
-                                min="0"
-                                max="9"
-                                step="1"
-                                inputmode="numeric"
-                                placeholder="0–9"
+                            <select
                                 class="house-input
                                        w-full min-w-0
                                        rounded-xl
-                                       border border-zinc-700
-                                       bg-black
+                                       border border-zinc-300
+                                       bg-white
                                        px-3 py-3
-                                       text-white
-                                       placeholder:text-zinc-700
+                                       text-zinc-900
                                        outline-none
                                        transition
                                        focus:border-blue-500"
                             >
+                                <option value="" disabled selected>Select</option>
+                                ${Array.from(
+                                    { length: 10 },
+                                    (_, n) => `<option value="${n}">${n}H</option>`
+                                ).join("")}
+                            </select>
 
 
                             <input
-                                type="number"
-                                min="0"
-                                step="0.01"
+                                type="text"
+                                autocomplete="off"
+                                inputmode="decimal"
+                                pattern="[0-9]*\\.?[0-9]*"
                                 placeholder="Amount"
                                 class="house-amount-input
                                        w-full min-w-0
                                        rounded-xl
-                                       border border-zinc-700
-                                       bg-black
+                                       border border-zinc-300
+                                       bg-white
                                        px-3 py-3
-                                       text-white
-                                       placeholder:text-zinc-700
+                                       text-zinc-900
+                                       placeholder:text-zinc-400
                                        outline-none
                                        transition
                                        focus:border-blue-500"
@@ -807,7 +901,7 @@ function renderHousePage() {
 
                 <div
                     class="flex justify-end
-                           border-t border-zinc-800
+                           border-t border-zinc-200
                            p-4"
                 >
 
@@ -819,7 +913,7 @@ function renderHousePage() {
                                bg-blue-600
                                px-8 py-3
                                font-black
-                               text-white
+                               text-zinc-900
                                transition
                                hover:bg-blue-500
                                disabled:cursor-not-allowed
@@ -843,15 +937,15 @@ function renderHousePage() {
             class="mt-6
                    overflow-hidden
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950"
+                   border border-zinc-200
+                   bg-white"
         >
 
             <div
                 class="grid
                        grid-cols-[60px_1fr_1fr_1fr_auto]
                        gap-3
-                       border-b border-zinc-800
+                       border-b border-zinc-200
                        px-4 py-3
                        text-xs font-bold
                        text-zinc-500
@@ -882,7 +976,7 @@ function renderHousePage() {
 
             <div
                 id="house-entries-container"
-                class="divide-y divide-zinc-800"
+                class="divide-y divide-zinc-200"
             >
 
                 <div
@@ -903,15 +997,15 @@ function renderHousePage() {
         <div
             class="mt-6
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950
+                   border border-zinc-200
+                   bg-white
                    p-5 sm:p-6"
         >
 
             <div
                 class="text-sm font-bold
                        tracking-wide
-                       text-zinc-400"
+                       text-zinc-600"
             >
                 GRAND TOTAL
             </div>
@@ -922,7 +1016,7 @@ function renderHousePage() {
                 class="mt-2
                        text-4xl font-black
                        tracking-tight
-                       text-green-400
+                       text-green-600
                        sm:text-5xl"
             >
                 ₹0.00
@@ -956,7 +1050,45 @@ function renderHousePage() {
         );
 
 
+    setupHouseForm();
+
+
     loadHouseEntries();
+}
+
+
+function setupHouseForm() {
+
+    const form =
+        document.getElementById("house-form");
+
+
+    if (!form) {
+        return;
+    }
+
+
+    const houseSelects =
+        form.querySelectorAll(".house-input");
+
+    const amountInputs =
+        form.querySelectorAll(".house-amount-input");
+
+
+    houseSelects.forEach((select, i) => {
+
+        select.addEventListener("change", () => {
+
+            if (select.value !== "") {
+                amountInputs[i].focus();
+            }
+        });
+    });
+
+
+    amountInputs.forEach(input => {
+        restrictToDecimal(input);
+    });
 }
 
 
@@ -982,28 +1114,28 @@ function switchHouseType(type) {
         frButton.className =
             "rounded-xl border border-red-500/40 " +
             "bg-red-500/10 px-4 py-4 font-black " +
-            "text-red-400 transition " +
+            "text-red-600 transition " +
             "hover:bg-red-500/20";
 
         srButton.className =
-            "rounded-xl border border-zinc-700 " +
-            "bg-zinc-900 px-4 py-4 font-black " +
-            "text-zinc-400 transition " +
-            "hover:bg-zinc-800";
+            "rounded-xl border border-zinc-300 " +
+            "bg-zinc-50 px-4 py-4 font-black " +
+            "text-zinc-600 transition " +
+            "hover:bg-zinc-100";
 
     } else {
 
         srButton.className =
             "rounded-xl border border-blue-500/40 " +
             "bg-blue-500/10 px-4 py-4 font-black " +
-            "text-blue-400 transition " +
+            "text-blue-600 transition " +
             "hover:bg-blue-500/20";
 
         frButton.className =
-            "rounded-xl border border-zinc-700 " +
-            "bg-zinc-900 px-4 py-4 font-black " +
-            "text-zinc-400 transition " +
-            "hover:bg-zinc-800";
+            "rounded-xl border border-zinc-300 " +
+            "bg-zinc-50 px-4 py-4 font-black " +
+            "text-zinc-600 transition " +
+            "hover:bg-zinc-100";
     }
 
 
@@ -1077,7 +1209,7 @@ async function loadHouseEntries() {
             <div
                 class="p-8
                        text-center
-                       text-red-400"
+                       text-red-600"
             >
                 Failed to load entries.
             </div>
@@ -1158,7 +1290,7 @@ function renderHouseEntries(entries) {
 
                     <div
                         class="font-bold
-                               text-zinc-400"
+                               text-zinc-600"
                     >
                         ${entry.entry_type}
                     </div>
@@ -1171,7 +1303,7 @@ function renderHouseEntries(entries) {
 
                     <div
                         class="font-bold
-                               text-green-400"
+                               text-green-600"
                     >
                         ₹${amount}
                     </div>
@@ -1179,7 +1311,7 @@ function renderHouseEntries(entries) {
 
                     <div
                         class="text-sm
-                               text-zinc-400"
+                               text-zinc-600"
                     >
                         ${time}
                     </div>
@@ -1197,7 +1329,7 @@ function renderHouseEntries(entries) {
                                    px-2 py-2
                                    text-xs
                                    font-bold
-                                   text-red-400
+                                   text-red-600
                                    transition
                                    hover:bg-red-500/10"
                         >
@@ -1290,10 +1422,14 @@ async function addHouseEntries(event) {
         }
 
 
+        const perEntryAmount =
+            (Number(amount) / 10).toFixed(2);
+
+
         houses.push({
             entry_type: currentEntryType,
             house: house,
-            amount: amount,
+            amount: perEntryAmount,
         });
     }
 
@@ -1414,7 +1550,7 @@ function renderEndingPage() {
                        bg-red-500/10
                        px-4 py-4
                        font-black
-                       text-red-400
+                       text-red-600
                        transition
                        hover:bg-red-500/20"
             >
@@ -1426,13 +1562,13 @@ function renderEndingPage() {
                 id="ending-sr-button"
                 type="button"
                 class="rounded-xl
-                       border border-zinc-700
-                       bg-zinc-900
+                       border border-zinc-300
+                       bg-zinc-50
                        px-4 py-4
                        font-black
-                       text-zinc-400
+                       text-zinc-600
                        transition
-                       hover:bg-zinc-800"
+                       hover:bg-zinc-100"
             >
                 SR
             </button>
@@ -1446,14 +1582,14 @@ function renderEndingPage() {
             class="mt-6
                    overflow-hidden
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950"
+                   border border-zinc-200
+                   bg-white"
         >
 
             <div
                 class="grid grid-cols-2
                        gap-3
-                       border-b border-zinc-800
+                       border-b border-zinc-200
                        px-4 py-3
                        text-xs font-bold
                        text-zinc-500
@@ -1475,8 +1611,26 @@ function renderEndingPage() {
 
                 <div
                     class="divide-y
-                           divide-zinc-800"
+                           divide-zinc-200"
                 >
+
+                    <div class="px-4 py-3">
+
+                        <button
+                            type="submit"
+                            class="w-full rounded-lg
+                                   bg-blue-600
+                                   px-4 py-2
+                                   text-xs font-black
+                                   text-white
+                                   transition
+                                   hover:bg-blue-500
+                                   active:scale-[0.98]"
+                        >
+                            SUBMIT
+                        </button>
+
+                    </div>
 
                     ${Array.from(
                         { length: 3 },
@@ -1489,40 +1643,40 @@ function renderEndingPage() {
                                    sm:gap-4"
                         >
 
-                            <input
-                                type="number"
-                                min="0"
-                                max="9"
-                                step="1"
-                                inputmode="numeric"
-                                placeholder="0–9"
+                            <select
                                 class="ending-input
                                        w-full min-w-0
                                        rounded-xl
-                                       border border-zinc-700
-                                       bg-black
+                                       border border-zinc-300
+                                       bg-white
                                        px-3 py-3
-                                       text-white
-                                       placeholder:text-zinc-700
+                                       text-zinc-900
                                        outline-none
                                        transition
                                        focus:border-blue-500"
                             >
+                                <option value="" disabled selected>Select</option>
+                                ${Array.from(
+                                    { length: 10 },
+                                    (_, n) => `<option value="${n}">${n}E</option>`
+                                ).join("")}
+                            </select>
 
 
                             <input
-                                type="number"
-                                min="0"
-                                step="0.01"
+                                type="text"
+                                autocomplete="off"
+                                inputmode="decimal"
+                                pattern="[0-9]*\\.?[0-9]*"
                                 placeholder="Amount"
                                 class="ending-amount-input
                                        w-full min-w-0
                                        rounded-xl
-                                       border border-zinc-700
-                                       bg-black
+                                       border border-zinc-300
+                                       bg-white
                                        px-3 py-3
-                                       text-white
-                                       placeholder:text-zinc-700
+                                       text-zinc-900
+                                       placeholder:text-zinc-400
                                        outline-none
                                        transition
                                        focus:border-blue-500"
@@ -1538,7 +1692,7 @@ function renderEndingPage() {
 
                 <div
                     class="flex justify-end
-                           border-t border-zinc-800
+                           border-t border-zinc-200
                            p-4"
                 >
 
@@ -1550,7 +1704,7 @@ function renderEndingPage() {
                                bg-blue-600
                                px-8 py-3
                                font-black
-                               text-white
+                               text-zinc-900
                                transition
                                hover:bg-blue-500
                                disabled:cursor-not-allowed
@@ -1574,15 +1728,15 @@ function renderEndingPage() {
             class="mt-6
                    overflow-hidden
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950"
+                   border border-zinc-200
+                   bg-white"
         >
 
             <div
                 class="grid
                        grid-cols-[60px_1fr_1fr_1fr_auto]
                        gap-3
-                       border-b border-zinc-800
+                       border-b border-zinc-200
                        px-4 py-3
                        text-xs font-bold
                        text-zinc-500
@@ -1613,7 +1767,7 @@ function renderEndingPage() {
 
             <div
                 id="ending-entries-container"
-                class="divide-y divide-zinc-800"
+                class="divide-y divide-zinc-200"
             >
 
                 <div
@@ -1634,15 +1788,15 @@ function renderEndingPage() {
         <div
             class="mt-6
                    rounded-2xl
-                   border border-zinc-800
-                   bg-zinc-950
+                   border border-zinc-200
+                   bg-white
                    p-5 sm:p-6"
         >
 
             <div
                 class="text-sm font-bold
                        tracking-wide
-                       text-zinc-400"
+                       text-zinc-600"
             >
                 GRAND TOTAL
             </div>
@@ -1653,7 +1807,7 @@ function renderEndingPage() {
                 class="mt-2
                        text-4xl font-black
                        tracking-tight
-                       text-green-400
+                       text-green-600
                        sm:text-5xl"
             >
                 ₹0.00
@@ -1688,7 +1842,45 @@ function renderEndingPage() {
         );
 
 
+    setupEndingForm();
+
+
     loadEndingEntries();
+}
+
+
+function setupEndingForm() {
+
+    const form =
+        document.getElementById("ending-form");
+
+
+    if (!form) {
+        return;
+    }
+
+
+    const endingSelects =
+        form.querySelectorAll(".ending-input");
+
+    const amountInputs =
+        form.querySelectorAll(".ending-amount-input");
+
+
+    endingSelects.forEach((select, i) => {
+
+        select.addEventListener("change", () => {
+
+            if (select.value !== "") {
+                amountInputs[i].focus();
+            }
+        });
+    });
+
+
+    amountInputs.forEach(input => {
+        restrictToDecimal(input);
+    });
 }
 
 
@@ -1713,28 +1905,28 @@ function switchEndingType(type) {
         frButton.className =
             "rounded-xl border border-red-500/40 " +
             "bg-red-500/10 px-4 py-4 font-black " +
-            "text-red-400 transition " +
+            "text-red-600 transition " +
             "hover:bg-red-500/20";
 
         srButton.className =
-            "rounded-xl border border-zinc-700 " +
-            "bg-zinc-900 px-4 py-4 font-black " +
-            "text-zinc-400 transition " +
-            "hover:bg-zinc-800";
+            "rounded-xl border border-zinc-300 " +
+            "bg-zinc-50 px-4 py-4 font-black " +
+            "text-zinc-600 transition " +
+            "hover:bg-zinc-100";
 
     } else {
 
         srButton.className =
             "rounded-xl border border-blue-500/40 " +
             "bg-blue-500/10 px-4 py-4 font-black " +
-            "text-blue-400 transition " +
+            "text-blue-600 transition " +
             "hover:bg-blue-500/20";
 
         frButton.className =
-            "rounded-xl border border-zinc-700 " +
-            "bg-zinc-900 px-4 py-4 font-black " +
-            "text-zinc-400 transition " +
-            "hover:bg-zinc-800";
+            "rounded-xl border border-zinc-300 " +
+            "bg-zinc-50 px-4 py-4 font-black " +
+            "text-zinc-600 transition " +
+            "hover:bg-zinc-100";
     }
 
 
@@ -1807,7 +1999,7 @@ async function loadEndingEntries() {
             <div
                 class="p-8
                        text-center
-                       text-red-400"
+                       text-red-600"
             >
                 Failed to load entries.
             </div>
@@ -1888,7 +2080,7 @@ function renderEndingEntries(entries) {
 
                     <div
                         class="font-bold
-                               text-zinc-400"
+                               text-zinc-600"
                     >
                         ${entry.entry_type}
                     </div>
@@ -1901,7 +2093,7 @@ function renderEndingEntries(entries) {
 
                     <div
                         class="font-bold
-                               text-green-400"
+                               text-green-600"
                     >
                         ₹${amount}
                     </div>
@@ -1909,7 +2101,7 @@ function renderEndingEntries(entries) {
 
                     <div
                         class="text-sm
-                               text-zinc-400"
+                               text-zinc-600"
                     >
                         ${time}
                     </div>
@@ -1927,7 +2119,7 @@ function renderEndingEntries(entries) {
                                    px-2 py-2
                                    text-xs
                                    font-bold
-                                   text-red-400
+                                   text-red-600
                                    transition
                                    hover:bg-red-500/10"
                         >
@@ -2019,10 +2211,14 @@ async function addEndingEntries(event) {
         }
 
 
+        const perEntryAmount =
+            (Number(amount) / 10).toFixed(2);
+
+
         endings.push({
             entry_type: currentEntryType,
             ending: ending,
-            amount: amount,
+            amount: perEntryAmount,
         });
     }
 
@@ -2223,7 +2419,7 @@ function switchPage(page) {
             "DAILY ENTRIES";
 
         pageLabel.className =
-            "text-sm font-medium text-red-400";
+            "text-sm font-medium text-red-600";
 
         pageTitle.textContent = "FR";
 
@@ -2238,7 +2434,7 @@ function switchPage(page) {
             "DAILY ENTRIES";
 
         pageLabel.className =
-            "text-sm font-medium text-blue-400";
+            "text-sm font-medium text-blue-600";
 
         pageTitle.textContent = "SR";
 
@@ -2253,7 +2449,7 @@ function switchPage(page) {
             "SHORTCUT";
 
         pageLabel.className =
-            "text-sm font-medium text-green-400";
+            "text-sm font-medium text-green-600";
 
         pageTitle.textContent = "HOUSE";
 
@@ -2330,6 +2526,31 @@ function setupForm() {
         "submit",
         addEntries
     );
+
+
+    const numberInputs =
+        form.querySelectorAll(".number-input");
+
+    const amountInputs =
+        form.querySelectorAll(".amount-input");
+
+
+    numberInputs.forEach((input, i) => {
+
+        restrictToDigits(input, 2);
+
+        input.addEventListener("input", () => {
+
+            if (input.value.length === 2) {
+                amountInputs[i].focus();
+            }
+        });
+    });
+
+
+    amountInputs.forEach(input => {
+        restrictToDecimal(input);
+    });
 }
 
 

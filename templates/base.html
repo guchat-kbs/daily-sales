@@ -19,12 +19,12 @@
 </head>
 
 
-<body class="min-h-screen bg-black text-white">
+<body class="min-h-screen bg-slate-50 text-slate-900">
 
 
     <!-- TOP BAR -->
 
-    <header class="border-b border-zinc-800">
+    <header class="border-b border-slate-200 bg-white">
 
         <div class="mx-auto max-w-6xl px-4 py-4 sm:py-5">
 
@@ -51,8 +51,8 @@
                 <div
                     class="w-full max-w-xs
                            rounded-xl
-                           border border-zinc-800
-                           bg-zinc-950
+                           border border-slate-200
+                           bg-slate-100
                            px-4 py-3
                            text-center
                            sm:max-w-sm"
@@ -72,7 +72,7 @@
                     <div
                         id="current-date"
                         class="mt-1 text-xs
-                               text-zinc-500
+                               text-slate-500
                                sm:text-sm"
                     >
                         Loading date...
@@ -88,7 +88,7 @@
             <div
                 class="mt-4 flex items-center
                        justify-between
-                       border-t border-zinc-900
+                       border-t border-slate-100
                        pt-3
                        sm:mt-5"
             >
@@ -96,7 +96,7 @@
                 <div
                     class="min-w-0
                            text-sm
-                           text-zinc-500"
+                           text-slate-500"
                 >
 
                     <span class="font-medium">
@@ -105,7 +105,7 @@
 
                     <span
                         class="font-bold
-                               text-white"
+                               text-slate-900"
                     >
                         {{ request.user.username }}
                     </span>
@@ -117,12 +117,13 @@
                     href="{% url 'logout' %}"
                     class="shrink-0
                            rounded-lg
-                           border border-red-500/30
+                           bg-red-600
                            px-3 py-2
                            text-xs font-bold
-                           text-red-400
+                           text-white
+                           shadow-sm
                            transition
-                           hover:bg-red-500/10"
+                           hover:bg-red-700"
                 >
                     LOGOUT
                 </a>
@@ -153,12 +154,13 @@
                 data-page="fr"
                 class="nav-button
                        rounded-xl
-                       border border-red-500/40
-                       bg-red-500/10
+                       bg-red-600
                        px-4 py-4
                        font-bold
+                       text-white
+                       shadow-sm
                        transition
-                       hover:bg-red-500/20"
+                       hover:bg-red-700"
             >
                 FR
             </button>
@@ -168,12 +170,13 @@
                 data-page="sr"
                 class="nav-button
                        rounded-xl
-                       border border-blue-500/40
-                       bg-blue-500/10
+                       bg-blue-600
                        px-4 py-4
                        font-bold
+                       text-white
+                       shadow-sm
                        transition
-                       hover:bg-blue-500/20"
+                       hover:bg-blue-700"
             >
                 SR
             </button>
@@ -183,12 +186,13 @@
                 data-page="house"
                 class="nav-button
                        rounded-xl
-                       border border-green-500/40
-                       bg-green-500/10
+                       bg-emerald-600
                        px-4 py-4
                        font-bold
+                       text-white
+                       shadow-sm
                        transition
-                       hover:bg-green-500/20"
+                       hover:bg-emerald-700"
             >
                 HOUSE
             </button>
@@ -198,12 +202,13 @@
                 data-page="ending"
                 class="nav-button
                        rounded-xl
-                       border border-zinc-700
-                       bg-zinc-900
+                       bg-slate-800
                        px-4 py-4
                        font-bold
+                       text-white
+                       shadow-sm
                        transition
-                       hover:bg-zinc-800"
+                       hover:bg-slate-900"
             >
                 ENDING
             </button>
