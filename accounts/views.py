@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
-
+import time
 
 def is_master(user):
     return (
@@ -26,10 +26,17 @@ def login_view(request):
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
 
+        start = time.perf_counter()
+
         user = authenticate(
             request,
             username=username,
             password=password,
+        )
+
+        print(
+            f"AUTHENTICATE TOOK: "
+            f"{time.perf_counter() - start:.3f} seconds"
         )
 
         if user is not None:
