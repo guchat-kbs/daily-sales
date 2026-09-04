@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 import time
 
+
 def is_master(user):
     return (
         user.is_authenticated
@@ -26,18 +27,37 @@ def login_view(request):
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
 
+        if request.method == "POST":
+
+    username = request.POST.get("username", "").strip()
+    password = request.POST.get("password", "")
+
+    start = time.perf_counter()
+
+    user = authenticate(
+        request,
+        username=username,
+        password=password,
+    )
+
+    auth_time = time.perf_counter() - start
+
+    print(f"AUTHENTICATE TOOK: {auth_time:.3f} seconds")
+
+    if user is not None:
+
         start = time.perf_counter()
 
-        user = authenticate(
-            request,
-            username=username,
-            password=password,
-        )
+        login(request, user)
 
-        print(
-            f"AUTHENTICATE TOOK: "
-            f"{time.perf_counter() - start:.3f} seconds"
-        )
+        login_time = time.perf_counter() - start
+
+        print(f"LOGIN SESSION TOOK: {login_time:.3f} seconds")
+
+        if is_master(user):
+            return redirect("master")
+
+        return redirect("home")
 
         if user is not None:
 
