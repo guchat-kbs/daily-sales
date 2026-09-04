@@ -586,7 +586,11 @@
             return "text-red-600";
         }
 
-        return "text-blue-600";
+        if (amount <= 2500) {
+            return "text-blue-600";
+        }
+
+        return "text-pink-600";
     }
 
 

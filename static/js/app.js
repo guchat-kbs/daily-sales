@@ -727,6 +727,10 @@ async function addEntries(event) {
             input => input.value = ""
         );
 
+        if (numberInputs.length > 0) {
+            numberInputs[0].focus();
+        }
+
 
         showNotification(
             `${entries.length} ${currentEntryType} ${
