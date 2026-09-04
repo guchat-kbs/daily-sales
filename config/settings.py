@@ -123,8 +123,6 @@ else:
     }
 
 # settings.py
-
-#down here is for localhost
 # import os
 
 # if os.getenv('RENDER'):
@@ -155,6 +153,19 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+
+# Speed over brute-force resistance: this is a personal bookkeeping
+# tool on Render's free (0.1 CPU) tier, where Django's default PBKDF2
+# iteration count makes every login take several seconds. See
+# accounts/hashers.py for details.
+PASSWORD_HASHERS = [
+    'accounts.hashers.FastPBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
 
