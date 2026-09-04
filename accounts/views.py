@@ -40,6 +40,7 @@ def login_view(request):
     print(f"AUTHENTICATE TOOK: {auth_time:.3f} seconds")
 
     if user is not None:
+
         start = time.perf_counter()
 
         login(request, user)
@@ -53,10 +54,10 @@ def login_view(request):
 
         return redirect("home")
 
-    messages.error(
-        request,
-        "Invalid username or password.",
-    )
+        messages.error(
+            request,
+            "Invalid username or password.",
+        )
 
     return render(request, "accounts/login.html")
 
