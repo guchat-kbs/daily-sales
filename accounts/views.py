@@ -1,8 +1,13 @@
+import time
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
+
+logger = logging.getLogger(__name__)
 
 
 def is_master(user):
@@ -26,15 +31,23 @@ def login_view(request):
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
 
+        t0 = time.perf_counter()
+
         user = authenticate(
             request,
             username=username,
             password=password,
         )
 
+        t1 = time.perf_counter()
+        logger.warning(f"authenticate() took {t1 - t0:.3f}s")
+
         if user is not None:
 
             login(request, user)
+
+            t2 = time.perf_counter()
+            logger.warning(f"login() took {t2 - t1:.3f}s")
 
             if is_master(user):
                 return redirect("master")
