@@ -27,11 +27,6 @@ def login_view(request):
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
 
-        if request.method == "POST":
-
-    username = request.POST.get("username", "").strip()
-    password = request.POST.get("password", "")
-
     start = time.perf_counter()
 
     user = authenticate(
@@ -45,7 +40,6 @@ def login_view(request):
     print(f"AUTHENTICATE TOOK: {auth_time:.3f} seconds")
 
     if user is not None:
-
         start = time.perf_counter()
 
         login(request, user)
@@ -59,19 +53,10 @@ def login_view(request):
 
         return redirect("home")
 
-        if user is not None:
-
-            login(request, user)
-
-            if is_master(user):
-                return redirect("master")
-
-            return redirect("home")
-
-        messages.error(
-            request,
-            "Invalid username or password.",
-        )
+    messages.error(
+        request,
+        "Invalid username or password.",
+    )
 
     return render(request, "accounts/login.html")
 
