@@ -1,4 +1,3 @@
-```bash
 #!/usr/bin/env bash
 set -o errexit
 
@@ -14,4 +13,3 @@ deleted_count = Entry.objects.filter(owner__isnull=True).count()
 print(f'Deleting {deleted_count} orphaned entries...')
 Entry.objects.filter(owner__isnull=True).delete()
 "
-```
