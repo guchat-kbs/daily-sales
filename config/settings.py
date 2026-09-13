@@ -38,8 +38,8 @@ DEBUG = os.environ.get(
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "shillongdart.online",
-    "www.shillongdart.online",
+    "assamdart.online",
+    "www.assamdart.online",
     ".onrender.com",
 ]
 
@@ -49,8 +49,8 @@ USE_X_FORWARDED_HOST = True
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
-    "https://shillongdart.online",
-    "https://www.shillongdart.online",
+    "https://assamdart.online",
+    "https://www.assamdart.online",
 ]
 
 
